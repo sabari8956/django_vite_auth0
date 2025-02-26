@@ -4,10 +4,10 @@ import jwt
 from datetime import datetime, timedelta
 
 @login_required
-def auth_callback(request):
+def login_handler(req):
     # Generate JWT
     payload = {
-        'user_id': request.user.id,
+        'user_id': req.user.id,
         'exp': datetime.now() + timedelta(days=1)
     }
     token = jwt.encode(payload, 'your-secret-key', algorithm='HS256')
@@ -21,8 +21,8 @@ def auth_callback(request):
         'jwt_token', 
         token,
         httponly=True, 
-        secure=True,  # Set True in production
-        samesite='Lax'
+        secure=True,
+        samesite='None' # Set 'Lax' in production (dk doubt hv to check)
     )
     
     return response
@@ -37,3 +37,13 @@ def get_user_from_token(token):
         return None
     except jwt.InvalidTokenError:
         return None
+    
+    
+def logout_handler(req):
+    frontend_url = "http://localhost:5173"  # Your Vite app URL
+    response = HttpResponseRedirect(f"{frontend_url}")
+    
+    # Remove JWT as cookie
+    response.delete_cookie('jwt_token')
+    
+    return response

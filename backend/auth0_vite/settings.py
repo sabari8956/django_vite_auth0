@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +29,12 @@ SECRET_KEY = "django-insecure-r1st$!cmk&8)=*((4j%edc8@3*%l!v9vl(33wjc47m4^*+n$q2
 DEBUG = True
 
 ALLOWED_HOSTS = []
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173,http://127.0.0.1:5173").strip().split(",")
 
+
+CSRF_TRUSTED_ORIGINS = [
+    *[f"{url.strip()}" for url in FRONTEND_URL]
+]
 
 # Application definition
 
@@ -128,9 +136,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "core.User"
 
 SOCIAL_AUTH_TRAILING_SLASH = False
-SOCIAL_AUTH_AUTH0_DOMAIN = "sportshunt-dev.eu.auth0.com"
-SOCIAL_AUTH_AUTH0_KEY = "LE9LF28twTXfp9xVTWuEmbmbF427ULMo"
-SOCIAL_AUTH_AUTH0_SECRET = "p597mslXzYVxCLy20e8BRvPkk3MNMlWOyPdL1JS1eIEMwQ_pbsacV42TH7jWGJSi"
+SOCIAL_AUTH_AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN").strip()
+SOCIAL_AUTH_AUTH0_KEY = os.getenv("AUTH0_CLIENT_ID").strip()
+SOCIAL_AUTH_AUTH0_SECRET = os.getenv("AUTH0_CLIENT_SECRET").strip()
 
 SOCIAL_AUTH_AUTH0_SCOPE = [
     'openid',
@@ -148,15 +156,10 @@ SOCIAL_AUTH_USER_MODEL = 'core.User'
 LOGIN_URL = '/login/auth0'
 LOGIN_REDIRECT_URL = '/login/handler/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/login/handler/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/logout/handler/'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite default development server
-    "http://127.0.0.1:5173",
+    *[f"{url.strip()}" for url in FRONTEND_URL]
 ]
 
-# Optional: If you need more flexible CORS settings
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Your Vite app
-]

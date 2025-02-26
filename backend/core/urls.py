@@ -7,6 +7,7 @@ urlpatterns = [
     path("", index, name="index"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
-    path("login/handler/", auth_callback, name="login_handler"),
+    path("login/handler/", login_handler, name="login_handler"),
+    path("logout/handler/", logout_handler, name="logout_handler"),
     
 ]

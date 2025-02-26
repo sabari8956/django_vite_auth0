@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
-function getCookieValue(name) {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? match[2] : null;
-}
-
 function App() {
   const [count, setCount] = useState(0)
   const [apiData, setApiData] = useState(null)
@@ -19,10 +14,8 @@ function App() {
           credentials: 'include', // This will include cookies in the request
           headers: {
             'Accept': 'application/json',
-            'Authorization': `Bearer ${getCookieValue('jwt_token')}`
           }
         });
-        console.log(response);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -46,7 +39,7 @@ function App() {
         {apiData && (
           <div className="auth-buttons">
             {!apiData.isAuthenticated ? (
-              <a href={`http://127.0.0.1:8000/login?redirect=${encodeURIComponent(window.location.href)}`}>
+              <a href={`http://127.0.0.1:8000/login`}>
                 <button>Login</button>
               </a>
             ) : (
