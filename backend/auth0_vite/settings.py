@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173,http://127.0.0.1:5173").strip().split(",")
+JWT_SECRET = os.getenv("JWT_SECRET").strip()
 
 
 CSRF_TRUSTED_ORIGINS = [

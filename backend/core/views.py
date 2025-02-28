@@ -13,9 +13,8 @@ from .utils import get_user_from_token
 def index(req):
     token = req.COOKIES.get('jwt_token')
     if token:
-        user = get_user_from_token(token)
-        user = User.objects.get(id=user)
-        if user:
+        if user := get_user_from_token(token):
+            user = User.objects.get(id=user)
             return JsonResponse({
                 'isAuthenticated': True,
                 'user': {
