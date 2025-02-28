@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 import jwt
 from datetime import datetime, timedelta
+from django.conf import settings
 
 @login_required
 def login_handler(req):
@@ -40,7 +41,7 @@ def get_user_from_token(token):
     
     
 def logout_handler(req):
-    frontend_url = "http://localhost:5173"  # Your Vite app URL
+    frontend_url = settings.FRONTEND_URL  # Your Vite app URL
     response = HttpResponseRedirect(f"{frontend_url}")
     
     # Remove JWT as cookie

@@ -156,6 +156,7 @@ SOCIAL_AUTH_USER_MODEL = 'core.User'
 LOGIN_URL = '/login/auth0'
 LOGIN_REDIRECT_URL = '/login/handler/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/login/handler/'
+SOCIAL_AUTH_LOGOUT_REDIRECT_URL= '/logout/handler/'
 LOGOUT_REDIRECT_URL = '/logout/handler/'
 
 CORS_ALLOWED_ORIGINS = [
